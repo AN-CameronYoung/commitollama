@@ -3,7 +3,7 @@
 	"displayName": "commitollama",
 	"description": "AI Commits with ollama",
 	"publisher": "Commitollama",
-	"version": "1.10.0",
+	"version": "1.11.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/anjerodev/commitollama.git"
@@ -11,10 +11,20 @@
 	"engines": {
 		"vscode": "^1.98.0"
 	},
-	"categories": ["Machine Learning", "Programming Languages"],
+	"categories": [
+		"Machine Learning",
+		"Programming Languages"
+	],
 	"icon": "icon.jpg",
 	"license": "MIT",
-	"keywords": ["code", "assistant", "ai", "llm", "commits", "ollama"],
+	"keywords": [
+		"code",
+		"assistant",
+		"ai",
+		"llm",
+		"commits",
+		"ollama"
+	],
 	"main": "./out/extension.js",
 	"activationEvents": [],
 	"contributes": {
@@ -166,5 +176,7 @@
 	"dependencies": {
 		"ollama": "0.5.15"
 	},
-	"extensionDependencies": ["vscode.git"]
+	"extensionDependencies": [
+		"vscode.git"
+	]
 }
