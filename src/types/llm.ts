@@ -3,6 +3,8 @@ export const Models = {
 	Codegemma: 'codegemma:latest',
 	Codellama: 'codellama',
 	Mistral: 'mistral:latest',
+	Gemma: 'gemma3:latest',
+	Qwen: 'qwen3:latest',
 	Custom: 'custom',
 } as const
 

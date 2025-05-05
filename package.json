@@ -11,20 +11,10 @@
 	"engines": {
 		"vscode": "^1.90.0"
 	},
-	"categories": [
-		"Machine Learning",
-		"Programming Languages"
-	],
+	"categories": ["Machine Learning", "Programming Languages"],
 	"icon": "icon.jpg",
 	"license": "MIT",
-	"keywords": [
-		"code",
-		"assistant",
-		"ai",
-		"llm",
-		"commits",
-		"ollama"
-	],
+	"keywords": ["code", "assistant", "ai", "llm", "commits", "ollama"],
 	"main": "./out/extension.js",
 	"activationEvents": [],
 	"contributes": {
@@ -60,6 +50,8 @@
 							"Codegemma",
 							"Codellama",
 							"Mistral",
+							"Gemma",
+							"Qwen",
 							"Custom"
 						],
 						"description": "Specify the desired model for generating commit messages.",
@@ -174,7 +166,5 @@
 	"dependencies": {
 		"ollama": "0.5.15"
 	},
-	"extensionDependencies": [
-		"vscode.git"
-	]
+	"extensionDependencies": ["vscode.git"]
 }
