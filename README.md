@@ -31,6 +31,10 @@ A free alternative to Github Copilot's commit generator that runs on your device
 
   `Mistral` (Uses mistral:latest)
 
+  `Gemma` (Uses gemma3:latest)
+
+  `Qwen` (Uses qwen3:latest)
+
   `Custom` - It allows you to write down any other model name from ollama.
 
 - Use Description: It allows you to enable or disable the use of commit descriptions.
