@@ -16,14 +16,14 @@ A free alternative to Github Copilot's commit generator that runs on your device
 ## Requirements
 
 - Install [Ollama][1] on your local machine.
-- Install the model to use: `ollama pull [model_name]`, recommended to use `llama3.2`.
+- Install the model to use: `ollama pull [model_name]`, recommended to use `llama3.2` or `gemma3`.
 - Make sure ollama is running, you can do it by visiting http://127.0.0.1:11434/ in your web browser (The port number might be different for you). If not, only opening the app should be enough, or run in your terminal: `ollama serve`.
 
 ## Configuration
 
 - Model: You can select the model from the plugin configuration.
 
-  `Llama` - default (Uses llama3.2:latest)
+  `Llama` - default (Uses llama3.2:latest) (slow)
 
   `Codegemma` (Uses codegemma:latest)
 
@@ -31,15 +31,32 @@ A free alternative to Github Copilot's commit generator that runs on your device
 
   `Mistral` (Uses mistral:latest)
 
-  `Gemma` (Uses gemma3:latest)
+  `Gemma` (Uses gemma3:latest) (fast)
 
   `Qwen` (Uses qwen3:latest)
 
   `Custom` - It allows you to write down any other model name from ollama.
 
+- Use Emojis: It allows you to enable or disable the use of emojis in commit messages.
+
 - Use Description: It allows you to enable or disable the use of commit descriptions.
 
-- Use Emojis: It allows you to enable or disable the use of emojis in commit messages.
+- Use Lowercase: Enables or disables the use of lowercase at the beginning of commit messages.
+
+- Language: Language for commit messages.
+
+- Prompt Temperature: Custom temperature for generating the commit message. (Higher number = more creative)
+
+- Commit Template: It allows you to write down the commit template you want to use. You should use the following placeholders: 
+  - `{{type}}`: It will be replaced by the type of the commit.
+  - `{{emoji}}`: It will be replaced by the emoji selected in the configuration.
+  - `{{message}}`: It will be replaced by the commit message.
+
+Default value: `{{type}} {{emoji}}: {{message}}`
+
+- Custom Model: Allows you to specify any model. The model has to be downloaded and available on your Ollama instance. **Note:** Ignored if `commitollama.model` is not set to "Custom".
+
+- Custom Language: Allows you to specify any language for the commit messages. **Note:** Ignored if `commitollama.language` is not set to "Custom".
 
 - Custom Emojis: Allows you to specify the emojis you want to use in the next template object within the VSCode config.json.
 
@@ -58,23 +75,13 @@ A free alternative to Github Copilot's commit generator that runs on your device
 
 - Custom Endpoint: Ollama usually uses port 11434. It is the value that will be used if empty.
 
-- Custom Summary Prompt: The prompt that will be used to generate the summary of all git diff.
+- Custom Prompt: The prompt that will be used to generate the commit message instead of the default one. If this field is populated, it will override all the extension prompts and rules.
 
-- Custom Commit Prompt: The prompt that will be used to generate the commit message.
+- Custom Type Rules: Custom rules for commit message types.
 
-- Custom Summary Temperature: The temperature that will be used to generate the summary of all git diff.
+- Custom Commit Message Rules: Custom rules for commit messages.
 
-- Custom Commit Temperature: The temperature that will be used to generate the commit message.
-
-- Use Lowercase: Enables or disables the use of lowercase at the beginning of commit messages.
-
-- Commit Template: It allows you to write down the commit template you want to use. You should use the following placeholders: 
-  - `{{type}}`: It will be replaced by the type of the commit.
-  - `{{emoji}}`: It will be replaced by the emoji selected in the configuration.
-  - `{{message}}`: It will be replaced by the commit message.
-
-Default value: `{{type}} {{emoji}}: {{message}}`
-  
+- Custom Description Prompt: A custom prompt to generate the commit description.
 
 ## Known Issues
 

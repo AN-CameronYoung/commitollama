@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import type { GitExtension, Repository } from './types/git'
-import { getCommitMessage, getSummary } from './generator'
+import { getCommitMessage } from './generator'
 import type { ExtensionConfig } from './types/config'
 
 export function getConfig<K extends keyof ExtensionConfig>(key: K) {
@@ -20,8 +20,7 @@ export function setConfig<K extends keyof ExtensionConfig>(
 
 export async function getSummaryUriDiff(repo: Repository, uri: string) {
 	const diff = await repo.diffIndexWithHEAD(uri)
-	const summary = await getSummary(diff)
-	return summary
+	return diff
 }
 
 export async function createCommitMessage(repo: Repository) {

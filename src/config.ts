@@ -1,30 +1,71 @@
-import { type EmojisMap, type Model, Models } from './types/llm'
+import {
+	type EmojisMap,
+	type Model,
+	type Language,
+	Models,
+	Languages,
+} from './types/llm'
 import { getConfig } from './utils'
 
 export const defaultConfig = {
 	endpoint: 'http://127.0.0.1:11434',
-}
+	model: Models.Llama,
+	useEmojis: false,
+	useDescription: false,
+	useLowerCase: false,
+	language: Languages.English,
+	commitTemplate: '{{type}} {{emoji}}: {{message}}',
+	promptTemperature: 0.2,
+	emojis: {
+		feat: '✨',
+		fix: '🐛',
+		docs: '📝',
+		style: '💎',
+		refactor: '♻️',
+		test: '🧪',
+		chore: '📦',
+		revert: '⏪',
+	} as EmojisMap,
+} as const
 
 class Config {
 	get inference() {
 		// Load model
-		const configModel = getConfig('model') as keyof typeof Models
-		let modelName: string | Model = Models[configModel]
+		const configModel = getConfig('model')
+		let model: string | Model = configModel
+			? Models[configModel]
+			: defaultConfig.model
 
-		if (configModel === 'Custom') {
-			modelName = getConfig('custom.model') || ''
+		if (model === Models.Custom) {
+			model = getConfig('custom.model') || defaultConfig.model
 		}
 
 		// Load Emojis config
-		const useEmojis = getConfig('useEmojis') as boolean
-		const commitEmojis = JSON.parse(JSON.stringify(getConfig('commitEmojis'))) as EmojisMap
-		const useDescription = getConfig('useDescription') as boolean
+		const useEmojis = getConfig('useEmojis') || defaultConfig.useEmojis
+		const customEmojis = getConfig('custom.emojis')
+		const commitEmojis =
+			customEmojis && typeof customEmojis === 'object'
+				? { ...defaultConfig.emojis, ...(customEmojis as EmojisMap) }
+				: defaultConfig.emojis
+
+		const useDescription =
+			getConfig('useDescription') || defaultConfig.useDescription
 
 		// Load useLowerCase config
-		const useLowerCase = getConfig('useLowerCase') as boolean
+		const useLowerCase = getConfig('useLowerCase') || defaultConfig.useLowerCase
 
 		// Load commitTemplate config
-		const commitTemplate = getConfig('commitTemplate') as string
+		const commitTemplate =
+			getConfig('commitTemplate') || defaultConfig.commitTemplate
+
+		// Load language config
+		const configLanguage = getConfig('language')
+		let language: string | Language = configLanguage
+			? Languages[configLanguage]
+			: defaultConfig.language
+		if (language === Languages.Custom) {
+			language = getConfig('custom.language') || defaultConfig.language
+		}
 
 		// Load endpoint
 		let endpoint = getConfig('custom.endpoint') || defaultConfig.endpoint
@@ -32,25 +73,30 @@ class Config {
 			endpoint = endpoint.slice(0, -1).trim()
 		}
 
-		// Load custom prompt and temperatures
-		const summaryPrompt = getConfig('custom.summaryPrompt')
-		const summaryTemperature = getConfig('custom.summaryTemperature') as number
+		// Load temperature
+		const promptTemperature =
+			getConfig('promptTemperature') || defaultConfig.promptTemperature
 
-		const commitPrompt = getConfig('custom.commitPrompt')
-		const commitTemperature = getConfig('custom.commitTemperature') as number
+		// Load custom prompts
+		const customPrompt = getConfig('custom.prompt')
+		const customTypeRules = getConfig('custom.typeRules')
+		const customCommitMessageRules = getConfig('custom.commitMessageRules')
+		const customDescriptionPrompt = getConfig('custom.descriptionPrompt')
 
 		return {
+			commitEmojis,
+			promptTemperature,
+			commitTemplate,
+			customCommitMessageRules,
+			customDescriptionPrompt,
+			customPrompt,
+			customTypeRules,
 			endpoint,
-			modelName,
-			summaryPrompt,
-			summaryTemperature,
-			commitPrompt,
-			commitTemperature,
+			language,
+			model,
 			useDescription,
 			useEmojis,
-			commitEmojis,
 			useLowerCase,
-			commitTemplate,
 		}
 	}
 }

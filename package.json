@@ -11,20 +11,10 @@
 	"engines": {
 		"vscode": "^1.98.0"
 	},
-	"categories": [
-		"Machine Learning",
-		"Programming Languages"
-	],
+	"categories": ["Machine Learning", "Programming Languages"],
 	"icon": "icon.jpg",
 	"license": "MIT",
-	"keywords": [
-		"code",
-		"assistant",
-		"ai",
-		"llm",
-		"commits",
-		"ollama"
-	],
+	"keywords": ["code", "assistant", "ai", "llm", "commits", "ollama"],
 	"main": "./out/extension.js",
 	"activationEvents": [],
 	"contributes": {
@@ -80,68 +70,85 @@
 						"default": false,
 						"order": 2
 					},
-					"commitollama.commitEmojis": {
-						"type": "object",
-						"description": "Map commit types to emojis. Only used if emojis are enabled.",
-						"default": {
-							"feat": "✨",
-							"fix": "🐛",
-							"docs": "📝",
-							"style": "💎",
-							"refactor": "♻️",
-							"test": "🧪",
-							"chore": "📦",
-							"revert": "⏪"
-						},
+					"commitollama.useLowerCase": {
+						"type": "boolean",
+						"description": "Enable or disable lowercase commit messages.",
+						"default": false,
 						"order": 3
 					},
-					"commitollama.custom.endpoint": {
+					"commitollama.language": {
 						"type": "string",
-						"description": "Ollama Server Endpoint. Leave empty to use the default ollama endpoint.",
+						"enum": [
+							"Arabic",
+							"Chinese",
+							"English",
+							"French",
+							"German",
+							"Italian",
+							"Japanese",
+							"Korean",
+							"Portuguese",
+							"Russian",
+							"Spanish",
+							"Custom"
+						],
+						"description": "Language for commit messages.",
+						"default": "English",
 						"order": 4
+					},
+					"commitollama.promptTemperature": {
+						"type": "number",
+						"minimum": 0,
+						"maximum": 1,
+						"description": "Custom temperature for generating the commit message. (Higher number = more creative)",
+						"default": 0.2,
+						"order": 7
+					},
+					"commitollama.commitTemplate": {
+						"type": "string",
+						"description": "Custom template for commit messages.",
+						"default": "{{type}} {{emoji}}: {{message}}",
+						"order": 8
 					},
 					"commitollama.custom.model": {
 						"type": "string",
 						"description": "Allows you to specify any model name. The model has to be downloaded and available on your Ollama instance. **Note:** Ignored if `commitollama.model` is not set to \"Custom\".",
 						"order": 5
 					},
-					"commitollama.custom.summaryPrompt": {
+					"commitollama.custom.language": {
 						"type": "string",
-						"description": "Custom prompt to summarize the git diff.",
+						"description": "Allows you to specify any language for the commit messages. **Note:** Ignored if `commitollama.language` is not set to \"Custom\".",
 						"order": 6
 					},
-					"commitollama.custom.summaryTemperature": {
-						"type": "number",
-						"minimum": 0,
-						"maximum": 1,
-						"description": "Custom temperature to summarize the git diff. (Higher number = more creative)",
-						"default": 0.8,
-						"order": 7
-					},
-					"commitollama.custom.commitPrompt": {
-						"type": "string",
-						"description": "Custom prompt to generate the commit message with.",
-						"order": 8
-					},
-					"commitollama.custom.commitTemperature": {
-						"type": "number",
-						"minimum": 0,
-						"maximum": 1,
-						"description": "Custom temperature for generating the commit message. (Higher number = more creative)",
-						"default": 0.2,
+					"commitollama.custom.emojis": {
+						"type": "object",
+						"description": "Map commit types to emojis. Only used if emojis are enabled.",
 						"order": 9
 					},
-					"commitollama.useLowerCase": {
-						"type": "boolean",
-						"description": "Enable or disable lowercase commit messages.",
-						"default": false,
+					"commitollama.custom.endpoint": {
+						"type": "string",
+						"description": "Ollama Server Endpoint. Leave empty to use the default ollama endpoint.",
 						"order": 10
 					},
-					"commitollama.commitTemplate": {
+					"commitollama.custom.prompt": {
 						"type": "string",
-						"description": "Custom template for commit messages.",
-						"default": "{{type}} {{emoji}}: {{message}}",
+						"description": "Custom prompt to generate the commit message with.",
 						"order": 11
+					},
+					"commitollama.custom.typeRules": {
+						"type": "string",
+						"description": "Custom rules for commit message types.",
+						"order": 12
+					},
+					"commitollama.custom.commitMessageRules": {
+						"type": "string",
+						"description": "Custom rules for commit messages.",
+						"order": 13
+					},
+					"commitollama.custom.descriptionPrompt": {
+						"type": "string",
+						"description": "Custom prompt to generate the commit description with.",
+						"order": 14
 					}
 				}
 			}
@@ -156,6 +163,7 @@
 		"format-fix": "npx @biomejs/biome format ./src --fix",
 		"test": "vscode-test",
 		"publish": "npm run build && vsce publish",
+		"publish:major": "npm run build && vsce publish major",
 		"publish:minor": "npm run build && vsce publish minor",
 		"publish:patch": "npm run build && vsce publish patch",
 		"package": "vsce package"
@@ -163,20 +171,18 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@types/mocha": "10.0.10",
-		"@types/node": "22.15.2",
+		"@types/node": "22.15.29",
 		"@types/sinon": "17.0.4",
 		"@types/vscode": "^1.98.0",
-		"@vscode/test-cli": "0.0.10",
-		"@vscode/test-electron": "2.4.1",
-		"esbuild": "0.25.3",
-		"mocha": "11.1.0",
-		"sinon": "19.0.2",
+		"@vscode/test-cli": "0.0.11",
+		"@vscode/test-electron": "2.5.2",
+		"esbuild": "0.25.5",
+		"mocha": "11.5.0",
+		"sinon": "20.0.0",
 		"typescript": "5.8.3"
 	},
 	"dependencies": {
-		"ollama": "0.5.15"
+		"ollama": "0.5.16"
 	},
-	"extensionDependencies": [
-		"vscode.git"
-	]
+	"extensionDependencies": ["vscode.git"]
 }

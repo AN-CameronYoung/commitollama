@@ -7,8 +7,23 @@ export const Models = {
 	Qwen: 'qwen3:latest',
 	Custom: 'custom',
 } as const
-
 export type Model = keyof typeof Models
+
+export const Languages = {
+	Arabic: 'arabic',
+	Chinese: 'chinese',
+	English: 'english',
+	French: 'french',
+	German: 'german',
+	Italian: 'italian',
+	Japanese: 'japanese',
+	Korean: 'korean',
+	Portuguese: 'portuguese',
+	Russian: 'russian',
+	Spanish: 'spanish',
+	Custom: 'custom',
+} as const
+export type Language = keyof typeof Languages
 
 export type EmojisMap = {
 	feat: string
