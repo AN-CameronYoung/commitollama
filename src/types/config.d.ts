@@ -16,5 +16,5 @@ export type ExtensionConfig = {
 	'custom.typeRules'?: string
 	'custom.commitMessageRules'?: string
 	'custom.descriptionPrompt'?: string
-    'request.headers': Record<string, string>
+    'request.headers'?: Record<string, string>
 }
