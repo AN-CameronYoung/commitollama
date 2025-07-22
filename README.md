@@ -83,7 +83,7 @@ Default value: `{{type}} {{emoji}}: {{message}}`
 
 - Custom Description Prompt: A custom prompt to generate the commit description.
 
-- Request headers: custom request headers that will be sent with each request to Ollama or a custom endpoint. This is useful for authentication and other purposes.
+- Custom Request Headers: custom request headers that will be sent with each request to Ollama or a custom endpoint. This is useful for authentication and other purposes.
 
 ## Known Issues
 

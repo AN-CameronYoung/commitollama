@@ -16,7 +16,7 @@ export const defaultConfig = {
 	language: Languages.English,
 	commitTemplate: '{{type}} {{emoji}}: {{message}}',
 	promptTemperature: 0.2,
-    requestHeaders: {},
+	requestHeaders: {},
 	emojis: {
 		feat: '✨',
 		fix: '🐛',
@@ -84,8 +84,9 @@ class Config {
 		const customCommitMessageRules = getConfig('custom.commitMessageRules')
 		const customDescriptionPrompt = getConfig('custom.descriptionPrompt')
 
-        // Load request headers
-        const requestHeaders = getConfig('request.headers') || defaultConfig.requestHeaders
+		// Load custom request headers
+		const requestHeaders =
+			getConfig('custom.requestHeaders') || defaultConfig.requestHeaders
 
 		return {
 			commitEmojis,
@@ -101,7 +102,7 @@ class Config {
 			useDescription,
 			useEmojis,
 			useLowerCase,
-            requestHeaders,
+			requestHeaders,
 		}
 	}
 }

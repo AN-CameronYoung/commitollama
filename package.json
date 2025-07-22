@@ -11,20 +11,10 @@
 	"engines": {
 		"vscode": "^1.98.0"
 	},
-	"categories": [
-		"Machine Learning",
-		"Programming Languages"
-	],
+	"categories": ["Machine Learning", "Programming Languages"],
 	"icon": "icon.jpg",
 	"license": "MIT",
-	"keywords": [
-		"code",
-		"assistant",
-		"ai",
-		"llm",
-		"commits",
-		"ollama"
-	],
+	"keywords": ["code", "assistant", "ai", "llm", "commits", "ollama"],
 	"main": "./out/extension.js",
 	"activationEvents": [],
 	"contributes": {
@@ -159,6 +149,11 @@
 						"type": "string",
 						"description": "Custom prompt to generate the commit description with.",
 						"order": 14
+					},
+					"commitollama.custom.requestHeaders": {
+						"type": "object",
+						"description": "Custom request headers to send with the Ollama request. Useful for authentication or custom headers.",
+						"order": 15
 					}
 				}
 			}
@@ -194,7 +189,5 @@
 	"dependencies": {
 		"ollama": "0.5.16"
 	},
-	"extensionDependencies": [
-		"vscode.git"
-	]
+	"extensionDependencies": ["vscode.git"]
 }
