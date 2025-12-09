@@ -17,4 +17,7 @@ export type ExtensionConfig = {
 	'custom.commitMessageRules'?: string
 	'custom.descriptionPrompt'?: string
 	'custom.requestHeaders'?: Record<string, string>
+	'background.enabled'?: boolean
+	'background.interval'?: number
+	'background.onSave'?: boolean
 }

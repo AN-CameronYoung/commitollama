@@ -2,6 +2,8 @@ import * as vscode from 'vscode'
 import type { GitExtension, Repository } from './types/git'
 import { getCommitMessage } from './generator'
 import type { ExtensionConfig } from './types/config'
+import { summaryCache } from './cache'
+import { summarizeFileDiff } from './summarizer'
 
 export function getConfig<K extends keyof ExtensionConfig>(key: K) {
 	return vscode.workspace
@@ -44,11 +46,24 @@ export async function createCommitMessage(repo: Repository) {
 					)
 				}
 
-				const callbacks = ind.map((change) =>
-					getSummaryUriDiff(repo, change.uri.fsPath),
-				)
-				const summaries = await Promise.all(callbacks)
+				const summaries: string[] = []
+				for (const change of ind) {
+					const diff = await getSummaryUriDiff(repo, change.uri.fsPath)
+					if (!diff || diff.trim() === '') continue
 
+					const hash = summaryCache.computeHash(diff)
+					const cached = summaryCache.get(change.uri.fsPath)
+
+					if (cached && cached.diffHash === hash) {
+						summaries.push(cached.summary)
+					} else {
+						// Cache miss - retrieve summary and cache it
+						const summary = await summarizeFileDiff(diff)
+						summaryCache.set(change.uri.fsPath, hash, summary)
+						summaries.push(summary)
+					}
+				}
+				
 				const commitMessage = await getCommitMessage(summaries)
 				repo.inputBox.value = commitMessage
 			} catch (error: any) {

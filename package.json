@@ -164,6 +164,24 @@
 						"type": "object",
 						"description": "Custom request headers to send with the Ollama request. Useful for authentication or custom headers.",
 						"order": 15
+					},
+					"commitollama.background.enabled": {
+						"type": "boolean",
+						"description": "Enable background generation of commit summaries on file save.",
+						"default": true,
+						"order": 16
+					},
+					"commitollama.background.interval": {
+						"type": "number",
+						"description": "Interval in seconds to scan for changes in the background (if enabled).",
+						"default": 60,
+						"order": 17
+					},
+					"commitollama.background.onSave": {
+						"type": "boolean",
+						"description": "Trigger background generation when a file is saved.",
+						"default": true,
+						"order": 18
 					}
 				}
 			}

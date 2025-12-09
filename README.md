@@ -85,6 +85,16 @@ Default value: `{{type}} {{emoji}}: {{message}}`
 
 - Custom Request Headers: custom request headers that will be sent with each request to Ollama or a custom endpoint. This is useful for authentication and other purposes.
 
+## Background Generation
+
+This feature allows the extension to summarize file changes in the background as you work. When you're ready to commit, the message generation will be much faster because it aggregates these pre-computed summaries.
+
+- **Enabled**: Enable or disable background generation. (Default: `true`)
+- **Interval**: Time in seconds to scan for changes if `On Save` misses something or for periodic checks. (Default: `60`)
+- **On Save**: Trigger background generation immediately when a file is saved. (Default: `true`)
+
+> **Note**: This feature creates a smoother experience by moving the heavy lifting of LLM generation to the background while you code.
+
 ## Known Issues
 
 Sometimes, depending on the model used, it can generate quite long commit messages. However, it provides a good starting point for what the commit should be and can be manually edited to achieve the desired length.

@@ -103,6 +103,11 @@ class Config {
 			useEmojis,
 			useLowerCase,
 			requestHeaders,
+			background: {
+				enabled: getConfig('background.enabled') || false,
+				interval: getConfig('background.interval') || 60,
+				onSave: getConfig('background.onSave') ?? true,
+			},
 		}
 	}
 }

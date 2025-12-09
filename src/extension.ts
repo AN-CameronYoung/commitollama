@@ -2,7 +2,12 @@ import * as vscode from 'vscode'
 import ollama from 'ollama'
 import { createCommitMessage, getGitExtension } from './utils'
 
+import { BackgroundScanner } from './scheduler'
+
 export function activate(context: vscode.ExtensionContext) {
+	const scanner = new BackgroundScanner()
+	context.subscriptions.push({ dispose: () => scanner.stop() })
+
 	const createCommitDisposable = vscode.commands.registerCommand(
 		'commitollama.createCommit',
 		async (uri?) => {
