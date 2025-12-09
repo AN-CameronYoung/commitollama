@@ -184,20 +184,20 @@
 		"package": "vsce package"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.2.7",
+		"@biomejs/biome": "2.3.8",
 		"@types/mocha": "10.0.10",
-		"@types/node": "24.9.1",
-		"@types/sinon": "17.0.4",
-		"@types/vscode": "1.105.0",
+		"@types/node": "24.10.2",
+		"@types/sinon": "21.0.0",
+		"@types/vscode": "1.106.1",
 		"@vscode/test-cli": "0.0.12",
 		"@vscode/test-electron": "2.5.2",
-		"esbuild": "0.25.11",
-		"mocha": "11.7.4",
+		"esbuild": "0.27.1",
+		"mocha": "11.7.5",
 		"sinon": "21.0.0",
 		"typescript": "5.9.3"
 	},
 	"dependencies": {
-		"ollama": "0.6.0"
+		"ollama": "0.6.3"
 	},
 	"extensionDependencies": [
 		"vscode.git"
