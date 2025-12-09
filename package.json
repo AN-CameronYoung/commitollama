@@ -9,7 +9,7 @@
 		"url": "https://github.com/anjerodev/commitollama.git"
 	},
 	"engines": {
-		"vscode": "^1.106"
+		"vscode": "^1.106.0"
 	},
 	"categories": [
 		"Machine Learning",
