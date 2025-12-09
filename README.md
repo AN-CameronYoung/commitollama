@@ -89,5 +89,15 @@ Default value: `{{type}} {{emoji}}: {{message}}`
 
 Sometimes, depending on the model used, it can generate quite long commit messages. However, it provides a good starting point for what the commit should be and can be manually edited to achieve the desired length.
 
+## Contributing
+
+- Fork the repository and create a feature branch.
+- Install dependencies: `npm install`.
+- Lint and format: `npm run lint` and `npm run format-fix`.
+- Run tests: `npm run test`.
+- Build the extension: `npm run build` (or `npm run watch`).
+- Follow the existing style and configuration (`biome.json`).
+- Open a PR against `main` with a clear description and meaningful commits (e.g., `type(scope): message`).
+
 [1]: https://ollama.ai/
 [2]: https://raw.githubusercontent.com/jepricreations/commitollama/main/commitollama-demo.gif
