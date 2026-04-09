@@ -8,6 +8,7 @@ export type ExtensionConfig = {
 	language: Language
 	promptTemperature: number
 	commitTemplate: string
+	numPredict: string
 	'custom.model'?: string
 	'custom.language'?: string
 	'custom.emojis'?: EmojisMap

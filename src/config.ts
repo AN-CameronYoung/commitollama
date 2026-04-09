@@ -9,23 +9,24 @@ import { getConfig } from './utils'
 
 export const defaultConfig = {
 	endpoint: 'http://127.0.0.1:11434',
-	model: Models.Llama,
-	useEmojis: false,
-	useDescription: false,
+	model: Models.Custom,
+	useEmojis: true,
+	useDescription: true,
 	useLowerCase: false,
 	language: Languages.English,
-	commitTemplate: '{{type}} {{emoji}}: {{message}}',
-	promptTemperature: 0.2,
+	commitTemplate: '{{type}}: {{message}}',
+	promptTemperature: 0.3,
+	numPredict: 1024,
 	requestHeaders: {},
 	emojis: {
-		feat: '✨',
-		fix: '🐛',
-		docs: '📝',
-		style: '💎',
-		refactor: '♻️',
-		test: '🧪',
-		chore: '📦',
-		revert: '⏪',
+			feat: '✨',
+			fix: '🐛',
+			docs: '📝',
+			style: '💎',
+			refactor: '♻️',
+			test: '🧪',
+			chore: '📦',
+			revert: '⏪',
 	} as EmojisMap,
 } as const
 
@@ -42,7 +43,7 @@ class Config {
 		}
 
 		// Load Emojis config
-		const useEmojis = getConfig('useEmojis') || defaultConfig.useEmojis
+		const useEmojis = getConfig('useEmojis') ?? defaultConfig.useEmojis
 		const customEmojis = getConfig('custom.emojis')
 		const commitEmojis =
 			customEmojis && typeof customEmojis === 'object'
@@ -50,10 +51,10 @@ class Config {
 				: defaultConfig.emojis
 
 		const useDescription =
-			getConfig('useDescription') || defaultConfig.useDescription
+			getConfig('useDescription') ?? defaultConfig.useDescription
 
 		// Load useLowerCase config
-		const useLowerCase = getConfig('useLowerCase') || defaultConfig.useLowerCase
+		const useLowerCase = getConfig('useLowerCase') ?? defaultConfig.useLowerCase
 
 		// Load commitTemplate config
 		const commitTemplate =
@@ -88,6 +89,8 @@ class Config {
 		const requestHeaders =
 			getConfig('custom.requestHeaders') || defaultConfig.requestHeaders
 
+		// Load num predict (token limit)
+		const numPredict = parseInt(getConfig('numPredict') as string) || defaultConfig.numPredict;
 		return {
 			commitEmojis,
 			promptTemperature,
@@ -103,6 +106,7 @@ class Config {
 			useEmojis,
 			useLowerCase,
 			requestHeaders,
+        	numPredict,
 			background: {
 				enabled: getConfig('background.enabled') || false,
 				interval: getConfig('background.interval') || 60,

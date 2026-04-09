@@ -24,45 +24,47 @@ export async function generateStructuredCommit(
 		customCommitMessageRules,
 		customDescriptionPrompt,
 		requestHeaders,
+		numPredict,
 	} = config.inference
 	const ollama = new Ollama({ host: endpoint, headers: requestHeaders })
 
 	const typeRules =
 		customTypeRules ||
-		`- feat: Only when adding a new feature
-	- fix: When fixing a bug
-	- docs: When updating documentation
-	- style: When changing elements styles or design and/or making changes to the code style (formatting, missing semicolons, etc.) without changing the code logic
-	- test: When adding or updating tests
-	- chore: When making changes to the build process or auxiliary tools and libraries
-	- revert: When undoing a previous commit
-	- refactor: When restructuring code without changing its external behavior`
+`- feat: Only when adding a new feature
+- fix: When fixing a bug
+- docs: When updating documentation
+- style: When changing elements styles or design and/or making changes to the code style (formatting, missing semicolons, etc.) without changing the code logic
+- test: When adding or updating tests
+- chore: When making changes to the build process or auxiliary tools and libraries
+- revert: When undoing a previous commit
+- refactor: When restructuring code without changing its external behavior`
 
 	const commitMessageRules =
 		customCommitMessageRules ||
-		`- Be concise and descriptive
-	- Keep under 50 characters
-	- Describe the main goal of the changes
-	- Do not include the type in the message (it will be separate)`
+`- Be concise and descriptive
+- Keep under 50 characters
+- Describe the main goal of the changes
+- Do NOT include the commit type or any prefix in the message
+- Do NOT use bullet points or lists`
 
 	const descriptionPrompt =
 		customDescriptionPrompt ||
-		'Also provide an extended summary (1-3 sentences) that describes the changes in more detail for the commit description.'
+		'Also provide a brief description (1-2 plain sentences, no bullet points, no markdown, no type prefix) that elaborates on the changes.'
 
 	const structuredPrompt =
 		customPrompt ||
-		`You are an expert developer specialist in creating commit messages.
-	Based on the provided user changes, generate a commit message with the appropriate type.
+`You are an expert developer specialist in creating commit messages.
+Based on the provided change summaries, generate a commit message with the appropriate type.
 
-	Rules for commit type:
-	${typeRules}
+Rules for commit type:
+${typeRules}
 
-	Rules for commit message:
-	${commitMessageRules}
-	- Write the message in ${language}
+Rules for commit message:
+${commitMessageRules}
+- Write the message in ${language}
 
-	${useDescription ? descriptionPrompt : ''}
-	Respond using JSON`
+${useDescription ? descriptionPrompt : ''}
+Respond using JSON only.`
 
 	const format = {
 		type: 'object',
@@ -70,16 +72,16 @@ export async function generateStructuredCommit(
 			type: {
 				type: 'string',
 				description:
-					'The commit type (feat, fix, docs, style, test, chore, revert, refactor)',
+					'The commit type. Must be exactly one of: feat, fix, docs, style, test, chore, revert, refactor',
 			},
 			message: {
 				type: 'string',
-				description: `The commit message in ${language}`,
+				description: `A short commit message in ${language}. Do not include the type prefix.`,
 			},
 			...(useDescription && {
 				summary: {
 					type: 'string',
-					description: `Extended summary of the changes in ${language}`,
+					description: `1-2 plain sentences describing the changes in ${language}. No bullet points, no markdown.`,
 				},
 			}),
 		},
@@ -94,9 +96,10 @@ export async function generateStructuredCommit(
 			prompt: `${structuredPrompt}\n\nChanges summaries: ${summaries.join(', ')}`,
 			stream: false,
 			format: format,
+        	think: false,
 			options: {
 				temperature: promptTemperature,
-				num_predict: 100,
+				num_predict: numPredict,
 			},
 		})
 

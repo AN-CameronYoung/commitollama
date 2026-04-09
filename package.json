@@ -68,6 +68,13 @@
 						"default": "Llama",
 						"order": 0
 					},
+					"commitollama.numPredict": {
+						"type": "number",
+						"minimum": 128,
+						"maximum": 8192,
+						"default": 1024,
+						"description": "Maximum number of tokens to generate. Increase for longer commit bodies. Default is 1024."
+					},
 					"commitollama.useEmojis": {
 						"type": "boolean",
 						"description": "Enable or disable the use of emojis in commit messages.",
@@ -215,7 +222,7 @@
 		"typescript": "5.9.3"
 	},
 	"dependencies": {
-		"ollama": "0.6.3"
+		"ollama": "^0.6.3"
 	},
 	"extensionDependencies": [
 		"vscode.git"
