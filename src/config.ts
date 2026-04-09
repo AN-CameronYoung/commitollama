@@ -10,13 +10,13 @@ import { getConfig } from './utils'
 export const defaultConfig = {
 	endpoint: 'http://127.0.0.1:11434',
 	model: Models.Custom,
-	useEmojis: true,
+	useEmojis: false,
 	useDescription: true,
 	useLowerCase: false,
 	language: Languages.English,
 	commitTemplate: '{{type}}: {{message}}',
-	promptTemperature: 0.3,
-	numPredict: 1024,
+	promptTemperature: 0.2,
+	numPredict: 512,
 	requestHeaders: {},
 	emojis: {
 			feat: '✨',

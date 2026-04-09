@@ -41,25 +41,23 @@ export async function generateStructuredCommit(
 
 	const commitMessageRules =
 		customCommitMessageRules ||
-`- Be concise and descriptive
-- Keep under 50 characters
-- Describe the main goal of the changes
+`- Single line, imperative mood, under 72 characters
 - Do NOT include the commit type or any prefix in the message
-- Do NOT use bullet points or lists`
+- Capture the 1-2 most important changes
+- If two distinct changes, join with a semicolon: "fix broken thing; add new thing"`
 
 	const descriptionPrompt =
 		customDescriptionPrompt ||
-		'Also provide a brief description (1-2 plain sentences, no bullet points, no markdown, no type prefix) that elaborates on the changes.'
+		`Provide a 'summary' as a bullet list (- item) of 3-6 items covering every significant change. Each bullet is a short imperative phrase — what changed, not why. No sentences, no prose, no file or variable names, no "this commit" phrasing.`
 
 	const structuredPrompt =
 		customPrompt ||
-`You are an expert developer specialist in creating commit messages.
-Based on the provided change summaries, generate a commit message with the appropriate type.
+`You are an expert software engineer writing a git commit message. Your response must be JSON with a 'type', 'message'${useDescription ? ", and 'summary'" : ''} field.
 
 Rules for commit type:
 ${typeRules}
 
-Rules for commit message:
+Rules for 'message':
 ${commitMessageRules}
 - Write the message in ${language}
 
